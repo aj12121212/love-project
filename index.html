@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Love Proposal</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #ffd6e8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+      overflow: hidden;
+      margin: 0;
+    }
+
+    .container, .celebration, .letter-section {
+      width: 100%;
+      height: 100vh;
+      display: none;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* 🔥 Common Box Style (सब पर लागू होगा) */
+    .box {
+      background: #fff;
+      padding: 40px;
+      border-radius: 25px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+      width: 320px;
+      max-width: 95%;
+      position: relative;
+      z-index: 20;
+      text-align: center;
+      margin: auto;
+    }
+
+    /* Proposal Page */
+    .container img { width: 180px; margin-bottom: 25px; }
+    h2 {
+      margin-bottom: 15px;
+      font-size: 30px;
+      color: #d6336c;
+    }
+    #sub {
+      font-size: 18px;
+      margin-bottom: 20px;
+      color: #555;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin: 10px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.2s;
+      position: relative;
+    }
+    .yes { background: #ff4d6d; color: #fff; }
+    .no  { background: #ccc; }
+
+    /* Celebration */
+    .celebration {
+      flex-direction: column;
+      background: linear-gradient(#ffedf2, #fff7fb);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .celebration .content {
+      composes: box;
+    }
+
+    .celebration img.love-img { width: 150px; margin-bottom: 8px; }
+    .celebration h1 { color: #ff4d6d; margin: 6px 0 18px; }
+
+    /* Letter Section */
+    .letter-section {
+      background: linear-gradient(120deg, #ffdde1, #ee9ca7);
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .letter-box {
+        background: #fff;
+        padding: 40px;
+        border-radius: 25px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+        width: 320px;       /* letter बड़ा रखने के लिए */
+        max-width: 95%;
+        margin: auto;
+        text-align: center;
+        animation: fadeIn 1.2s ease-in-out;
+    }
+
+    .letter-box h2 {
+      text-align: center;
+      color: #d6336c;
+      margin-bottom: 20px;
+      font-size: 28px;
+    }
+
+    .letter-box p {
+      line-height: 1.8;
+      font-size: 17px;
+      color: #333;
+      white-space: pre-line;
+    }
+
+    .heart-decor {
+      position: absolute;
+      top: -20px;
+      right: -20px;
+      font-size: 40px;
+      color: #ff4d6d;
+      animation: pulse 1.5s infinite;
+    }
+
+    .signature {
+      margin-top: 25px;
+      text-align: right;
+      font-weight: bold;
+      color: #0d6efd;
+      font-size: 18px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+
+    /* Balloons */
+    .balloon {
+      position: absolute;
+      bottom: -160px;
+      width: 60px;
+      height: 80px;
+      border-radius: 50%;
+      animation: floatUp linear forwards;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.12);
+    }
+    .balloon::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: -38px;
+      width: 2px;
+      height: 40px;
+      background: #555;
+      transform: translateX(-50%);
+    }
+
+    .heart {
+      position: absolute;
+      bottom: -120px;
+      width: 200px;
+      height: 200px;
+      animation: floatUp linear forwards;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 12;
+    }
+
+    .heart svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .heart text {
+      font-size: 13px;
+      font-weight: bold;
+      fill: #fff;
+      height: 80;
+      text-anchor: middle;
+      dominant-baseline: middle;
+    }
+
+    @keyframes floatUp {
+      0%   { transform: translateY(0) scale(1); opacity: 1; }
+      100% { transform: translateY(-120vh) scale(1.05); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Proposal Page -->
+  <div class="container" id="container">
+    <div class="box">
+      <img id="stepImg" src="001.gif" alt="cute">
+      <h2 id="question">Do you love me? 🥰</h2>
+      <p id="sub">I am all yours</p>
+      <div>
+        <button class="yes" onclick="sayYes()">Yes</button>
+        <button class="no" id="noBtn" onclick="sayNo()">No</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Celebration Page -->
+  <div class="celebration" id="celebration">
+    <div class="box content">
+      <img src="4.gif" alt="I love you so much baby" class="love-img">
+      <h1>💕 I knew it! You love me too 💕</h1>
+      <button class="yes" onclick="showLetter()">Celebrate 🎉</button>
+    </div>
+  </div>
+  <!-- Letter Page -->
+  <div class="letter-section" id="letterSection">
+    <div class="letter-box">
+      <div class="heart-decor">❤️</div>
+      <h2>Dear Sneha,</h2>
+      <p>
+शायद तुम मुझे उतना न जानती हो,
+जितना मैं तुम्हें हर रोज़ चुपचाप देख कर महसूस करता हूँ।
+
+तुमसे मेरी मुलाक़ात पहली बार 17 फ़रवरी को हुई थी।
+तुम उस दिन लाल शर्ट और काली जीन्स में,
+lab की रोशनी से भी ज़्यादा खूबसूरत लग रही थीं।
+
+उस दिन मैंने तुम्हारी आवाज़ तो नहीं सुनी थी,
+पर तुम्हारी आँखों का सन्नाटा मेरे दिल तक उतर गया था।
+
+तब से आज तक…
+मैं तुमसे अपने दिल की ही बातें करता रहा हूँ।
+हर बार तुम्हें देख कर यही सोचता हूँ—
+“क्या कभी तुम मेरे एहसासों को समझ पाओगी?”
+
+💓Sneha💓
+मुझे नहीं मालूम प्यार जताने के हज़ार तरीक़े,
+मुझे बस इतना पता है—
+मैं तुम्हें सिर्फ़ पसंद नहीं करता,
+मैं तुम्हारी इज़्ज़त करता हूँ।
+
+तुम्हारी सादगी, तुम्हारा बर्ताव,
+और तुम्हारा सबसे ख़ास गुण—तुम्हारा मासूमियत भरा बर्ताव,
+यही सब मुझे तुम्हारे और क़रीब ले आता है।
+
+हो सकता है मैं तुमसे अलग माहौल से आता हूँ,
+लेकिन मेरी सोच, मेरा दिल
+कभी तुमसे जुदा नहीं हुआ।
+
+मुझे बस एक मौक़ा चाहिए—
+तुम्हारे साथ वक़्त बिताने का।
+बिना किसी दबाव, बिना किसी शर्त,
+सिर्फ़ एक अच्छा इंसान बनकर।
+
+मुझे तुम्हारे “हाँ” का इंतज़ार नहीं,
+मुझे तुम्हारे भरोसे का इंतज़ार है।
+
+और अगर कभी तुम्हें लगे
+कि कोई है जो तुम्हें बिना शर्त चाहने वाला है,
+तो बस मुझे याद कर लेना।
+
+मैं Ajay हूँ—
+वो लड़का, जिसके लिए तुम कोई ख़्वाब नहीं,
+बल्कि एक दुआ हो।
+
+तुम्हारी एक मुस्कान से
+मेरी पूरी दुनिया रोशन हो जाती है।
+और अगर कभी तुमने सिर्फ़ मेरा नाम लेकर कहा—“Ajay”,
+तो शायद मेरी हर खामोशी
+खुशी के आँसुओं में ढल जाएगी।
+
+तुम्हारी मरज़ी, तुम्हारा वक़्त—
+और हर बात में तुम्हारी खुशी मेरे लिए सबसे पहले है।
+      </p>
+      <div class="signature">
+        हमेशा तुम्हारा,<br>
+        Ajay 💙
+      </div>
+    </div>
+  </div>
+
+<script>
+  let step = 0;
+  const images = ["001.gif","01.gif","1.gif","2.gif","3.jpg","40.gif"];
+  let balloonInterval = null;
+  let heartInterval = null;
+
+  // Start Proposal Page
+  document.getElementById("container").style.display = "flex";
+
+  function sayYes() {
+    document.getElementById("container").style.display = "none";
+    const celebration = document.getElementById("celebration");
+    celebration.style.display = "flex";
+
+    if (!balloonInterval) balloonInterval = setInterval(() => createBalloon(celebration), 650);
+    if (!heartInterval)   heartInterval   = setInterval(() => createHeart(celebration), 1100);
+  }
+
+  function showLetter() {
+    document.getElementById("celebration").style.display = "none";
+    document.getElementById("letterSection").style.display = "flex";
+  }
+
+  function sayNo() {
+    const q = document.getElementById("question");
+    const sub = document.getElementById("sub");
+    const img = document.getElementById("stepImg");
+    const noBtn = document.getElementById("noBtn");
+    const container = document.getElementById("container");
+
+    if(step === 0){
+      q.innerText = "Please think again! 🙄";
+      sub.innerText = "itni jaldi nahi matt bolo 😅";
+      img.src = images[1];
+    } else if(step === 1){
+      q.innerText = "Ek baar aur soch lo! 😣";
+      sub.innerText = "Kyu aisa kar rahe ho 🤔";
+      img.src = images[2];
+    } else if(step === 2){
+      q.innerText = "Mat karo na aisa 😔";
+      sub.innerText = "Tum meri duniya ho 💖";
+      img.src = images[3];
+    } else if(step === 3){
+  q.innerText = "Baby Man jao na! Kitna bhav khaogi 😭";
+  sub.innerText = "Bahut glt baat hai yaar 😢";
+  img.src = images[4];
+
+  noBtn.style.position = "relative"; // ✅ absolute हटाया
+  noBtn.onmousemove = function(){
+    let maxX = 200; // ✅ box के अंदर limit
+    let maxY = 80;
+    let x = Math.floor(Math.random() * maxX);
+    let y = Math.floor(Math.random() * maxY);
+    noBtn.style.transition = "0s";
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+  };
+}
+else {
+      q.innerText = "Ab toh main pakad ke rahungi! 😼";
+      sub.innerText = "No ka option milna hi mushkil hai 🤭";
+      img.src = images[5];
+    }
+    step++;
+  }
+
+  function randomColor() {
+    const colors = ["#ff4d6d","#ffb347","#6a5acd","#00c49a","#ff69b4","#ffa07a"];
+    return colors[Math.floor(Math.random()*colors.length)];
+  }
+
+  function createBalloon(parent) {
+    const balloon = document.createElement("div");
+    balloon.className = "balloon";
+    const parentW = parent.clientWidth || window.innerWidth;
+    const left = Math.random() * (parentW - 60);
+    balloon.style.left = left + "px";
+    balloon.style.backgroundColor = randomColor();
+    const dur = 6 + Math.random()*4;
+    balloon.style.animationDuration = dur + "s";
+    balloon.style.zIndex = 8;
+    parent.appendChild(balloon);
+    setTimeout(() => balloon.remove(), (dur + 0.5) * 1000);
+  }
+
+  const heartTexts = [
+    ["I","❤️","LOVE"],
+    ["Love You"], 
+    ["You & Me💖"],
+    ["My Jaan"],
+  ];
+
+  function pickHeartText() {
+    return heartTexts[Math.floor(Math.random() * heartTexts.length)];
+  }
+
+  function createHeart(parent) {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    const parentW = parent.clientWidth || window.innerWidth;
+    const left = Math.random() * (parentW - 100);
+    heart.style.left = left + "px";
+    const dur = 5 + Math.random()*4;
+    heart.style.animationDuration = dur + "s";
+
+    const picked = pickHeartText();
+    const displayText = Array.isArray(picked) ? picked.join(" ") : picked;
+
+    const svg = `
+      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <path d="M100 180 L40 120 A40 40 0 1 1 100 60 A40 40 0 1 1 160 120 Z" fill="red"/>
+        <text x="100" y="105">${displayText}</text>
+      </svg>`;
+    heart.innerHTML = svg;
+
+    parent.appendChild(heart);
+    setTimeout(() => heart.remove(), (dur + 0.5) * 1000);
+  }
+</script>
+</body>
+</html>
+
